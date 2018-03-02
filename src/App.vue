@@ -1,17 +1,23 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <img class="img__logo" src="./assets/GitHub_Logo.png">
+    <!-- <HelloWorld msg="Welcome to Your Vue.js App"/> -->
+    <!-- Search Bar -->
+    <Search val="Enter a Github username"/>
+    <!-- List Results -->
+    <!-- Selected -->
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+// import HelloWorld from './components/HelloWorld.vue'
+import Search from './components/Search.vue'
 
 export default {
   name: 'app',
   components: {
-    HelloWorld
+    // HelloWorld,
+    Search
   }
 }
 </script>
@@ -24,5 +30,9 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+}
+
+.img__logo {
+  width: 33.3%;
 }
 </style>
