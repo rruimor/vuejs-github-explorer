@@ -1,26 +1,38 @@
 <template>
   <div class="search__bar">
     <label for="username">Username: </label>
-    <input type="text" name="username" v-model="inputText">
+    <input 
+      type="text"
+      name="username" 
+      placeholder="Enter some text..."
+      class="input"
+      v-model="inputText"
+    >
 
     <div class="search__results">
-      <ul v-if="results && results.length">
-        <li v-for="result of results">
-          <p>{{ result.login }}</p>
-          <img class="avatar--thumbnail" :src="result.avatar_url">
-        </li>
-      </ul>
       <div class="results__message">
         {{ resultMsg }}
       </div>
+
+      <ul v-if="results && results.length">
+        <div class="users__wrapper">
+          <ResultItem 
+            v-for="result of results"
+            :key="result.id"
+            :result="result"
+            v-on:selected="setSelectedUser"
+          />
+        </div>
+      </ul>
     </div>
   </div>
 
 </template>
 
 <script>
-  import axios from 'axios';
-  import lodash from 'lodash';
+  import axios from 'axios'
+  import _ from 'lodash'
+  import ResultItem from './ResultItem.vue'
 
   export default {
     name: 'Search',
@@ -31,18 +43,27 @@
         errors: [],
       }
     },
-    created() {
-      
+    props: {
+      selectedUser: {
+        type: String,
+        required: true
+      }
+    },
+    components: {
+      ResultItem
     },
     watch: {      
       inputText: {
-        handler: function(val, _oldVal) {
+        handler: function() {
           this.getUsers()
         },
         deep: true
       }
     },
     methods: {
+      setSelectedUser: function(username) {
+        this.$emit('update:selectedUser', username)
+      },
       getUsers: _.debounce(
         function () {
           if (this.inputText === '') {
@@ -65,13 +86,13 @@
             console.log(e);
           })
         },
-        200
+        300
       )
     },
     computed: {
       resultMsg: function () {
         if (this.inputText === '') {
-          return 'Enter some text :)';
+          return '';
         }
         else if (this.results && this.results.length) {
           return '';
@@ -85,8 +106,21 @@
 </script>
 
 <style scoped>
-  .avatar--thumbnail {
-    max-width: 100px;
+  
+  ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .search__results {
+    margin-top: 20px;
+  }
+
+  .users__wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
   }
 
   .results__message {
