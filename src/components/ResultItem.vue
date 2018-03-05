@@ -29,9 +29,6 @@
 </script>
 
 <style lang="scss" scoped>
-  .avatar--thumbnail {
-    max-width: 100px;
-  }
 
   .result__name {
     font-weight: bold;

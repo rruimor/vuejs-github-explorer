@@ -1,22 +1,43 @@
 <template>
   <div class="profile__wrapper">
     <a href="#" @click="clearSelectedUser">Back</a>
+
     <h1>{{ userData.login }}</h1>
-    <div class="avatar__wrapper">
+    
+    <section class="avatar__wrapper">
       <img class="avatar--thumbnail" :src="userData.avatar_url">
-    </div>
-    <div class="profile__data">
-      <h2>{{ userData.name }}</h2>
-      <p v-if=" userData.blog"><a :href="userData.blog" target="_blank">{{ userData.blog }}</a>
-      </p>
-      <p>Followers: {{ userData.followers }}</p>
-      <p>Following: {{ userData.following }}</p>
-    </div>
+    </section>
+    
+    <section class="profile__name">
+      <h2 class="user__name">{{ userData.name }}</h2>
+      <span class="user__location">{{ userData.location }}</span>
+    </section>
+
+    <section class="profile__figures">
+      <div class="figure">
+        <h3 class="figure__number">{{ userData.followers }}</h3>
+        <span>Followers</span>
+      </div>
+
+      <div class="figure">
+        <h3 class="figure__number">{{ userData.following }}</h3>
+        <span>Following</span>
+      </div>
+
+      <div class="figure">
+        <h3 class="figure__number">{{ userData.public_repos }}</h3>
+        <span>Public Repos</span>
+      </div>
+    </section>
+
+    <section>
+      <p v-if=" userData.blog"><a :href="userData.blog" target="_blank">{{ userData.blog }}</a></p>
+    </section>
   </div>
 </template>
 
 <script>
-  import axios from 'axios'
+  // import axios from 'axios'
 
   export default {
     props: {
@@ -38,19 +59,51 @@
         this.$emit('clearSelected');
       },
       getUser: function(username) {
-        axios.get('https://api.github.com/users/' + username)
-        .then(response => {
-          this.userData = response.data
-        })
-        .catch(e => {
-          // this.errors.push(e)
-          console.log(e);
-        })
+        console.log(username);
+
+        let mockedResponse = {"login":"mojombo","id":1,"avatar_url":"https://avatars0.githubusercontent.com/u/1?v=4","gravatar_id":"","url":"https://api.github.com/users/mojombo","html_url":"https://github.com/mojombo","followers_url":"https://api.github.com/users/mojombo/followers","following_url":"https://api.github.com/users/mojombo/following{/other_user}","gists_url":"https://api.github.com/users/mojombo/gists{/gist_id}","starred_url":"https://api.github.com/users/mojombo/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/mojombo/subscriptions","organizations_url":"https://api.github.com/users/mojombo/orgs","repos_url":"https://api.github.com/users/mojombo/repos","events_url":"https://api.github.com/users/mojombo/events{/privacy}","received_events_url":"https://api.github.com/users/mojombo/received_events","type":"User","site_admin":false,"name":"Tom Preston-Werner","company":null,"blog":"http://tom.preston-werner.com","location":"San Francisco","email":null,"hireable":null,"bio":null,"public_repos":59,"public_gists":62,"followers":20828,"following":11,"created_at":"2007-10-20T05:24:19Z","updated_at":"2018-02-26T20:05:14Z"}
+
+        // axios.get('https://api.github.com/users/' + username)
+        // .then(response => {
+        //   this.userData = response.data
+        // })
+        // .catch(e => {
+        //   // this.errors.push(e)
+        //   console.log(e);
+        // })
+
+        this.userData = mockedResponse;
       }
     }
   }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+
+  section {
+    margin: 1em 0;
+    width: 100%;
+  }
   
+  .profile__name {
+    margin-bottom: 20px;
+
+    .user__name {
+      margin-bottom: 5px;
+    }
+  }
+
+  .profile__figures {
+    display: inline-flex;
+    justify-content: space-evenly;
+  }
+
+  .figure {
+    flex: 1;
+
+    &__number {
+      margin: 5px;
+    }
+  }
+
 </style>

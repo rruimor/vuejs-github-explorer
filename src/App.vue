@@ -1,22 +1,28 @@
 <template>
   <div id="app">
-    <!-- <img class="img__logo" src="./assets/GitHub_Logo.png"> -->
-    <h1 class="logo">GitHub Explorer</h1>
-    <!-- Search Bar -->
-    <Search
-      v-show="!selectedUser"
-      :selectedUser.sync="selectedUser"
-    />
-    <!-- Selected -->
 
-    <Profile
-      v-if="selectedUser"
-      :selectedUser="selectedUser"
-      v-on:clearSelected="clearSelectedUser"
-    />
+    <div class="container">
+      <h1 class="logo">GitHub Explorer</h1>
+      <!-- Search Bar -->
+      <Search
+        v-show="!selectedUser"
+        :selectedUser.sync="selectedUser"
+      />
+      <!-- Selected -->
+
+      <Profile
+        v-if="selectedUser"
+        :selectedUser="selectedUser"
+        v-on:clearSelected="clearSelectedUser"
+      />
+    </div>
+
+    <!-- <img class="img__logo" src="./assets/GitHub_Logo.png"> -->
 
   </div>
 </template>
+
+
 
 <script>
 import Search from './components/Search.vue'
@@ -40,6 +46,8 @@ export default {
 }
 </script>
 
+
+
 <style>
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
@@ -57,10 +65,34 @@ export default {
 
 }
 
+.container {
+  /*display: flex;*/
+  /*flex-direction: column;*/
+  /*align-items: center;*/
+
+  width: 100%;
+
+  margin: 0 10px;
+
+  @media only screen and (min-width: 768px) {
+    margin: 0 60px;
+  }
+}
+
+.avatar--thumbnail {
+  /*max-width: 120px;*/
+  border-radius: 50%;
+  width: 120px;
+}
+
 .logo {
-  font-size: 3em;
   /*font-family: 'Roboto', sans-serif;*/
   font-family: 'Open Sans', sans-serif;
+
+  @media only screen and (min-width: 768px) {
+    font-size: 3em;
+    margin-top: 60px;
+  }
 }
 
 .img__logo {
