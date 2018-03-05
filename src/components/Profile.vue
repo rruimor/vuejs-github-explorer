@@ -5,9 +5,13 @@
     <div class="avatar__wrapper">
       <img class="avatar--thumbnail" :src="userData.avatar_url">
     </div>
-    <p>{{ userData.name }}</p>
-    <p>Followers: {{ userData.followers }}</p>
-    <p>Following: {{ userData.following }}</p>
+    <div class="profile__data">
+      <h2>{{ userData.name }}</h2>
+      <p v-if=" userData.blog"><a :href="userData.blog" target="_blank">{{ userData.blog }}</a>
+      </p>
+      <p>Followers: {{ userData.followers }}</p>
+      <p>Following: {{ userData.following }}</p>
+    </div>
   </div>
 </template>
 

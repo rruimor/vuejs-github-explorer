@@ -1,6 +1,7 @@
 <template>
   <div id="app">
-    <img class="img__logo" src="./assets/GitHub_Logo.png">
+    <!-- <img class="img__logo" src="./assets/GitHub_Logo.png"> -->
+    <h1>GitHub Explorer</h1>
     <!-- Search Bar -->
     <Search
       v-show="!selectedUser"

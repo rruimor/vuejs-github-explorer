@@ -1,6 +1,6 @@
 <template>
   <div class="search__bar">
-    <label for="username">Username: </label>
+    <!-- <label for="username">Username: </label> -->
     <input 
       type="text"
       name="username" 
@@ -105,12 +105,18 @@
   }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
   
   ul {
     list-style-type: none;
     padding: 0;
     margin: 0;
+  }
+
+  .input {
+    padding: 10px;
+    font-size: 1.2em;
+    border: 1px solid #CCC;
   }
 
   .search__results {
