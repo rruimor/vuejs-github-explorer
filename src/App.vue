@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <!-- <img class="img__logo" src="./assets/GitHub_Logo.png"> -->
-    <h1>GitHub Explorer</h1>
+    <h1 class="logo">GitHub Explorer</h1>
     <!-- Search Bar -->
     <Search
       v-show="!selectedUser"
@@ -47,10 +47,20 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  @media only screen and (min-width: 768px) {
+    margin-top: 60px;
+  }
+
+}
+
+.logo {
+  font-size: 3em;
+  /*font-family: 'Roboto', sans-serif;*/
+  font-family: 'Open Sans', sans-serif;
 }
 
 .img__logo {
