@@ -15,18 +15,18 @@
 
     <section class="profile__figures">
       <div class="figure">
-        <h3 class="figure__number">{{ userData.followers }}</h3>
-        <span>Followers</span>
+        <p class="figure__number">{{ userData.followers }}</p>
+        <span class="figure__text">Followers</span>
       </div>
 
       <div class="figure">
-        <h3 class="figure__number">{{ userData.following }}</h3>
-        <span>Following</span>
+        <p class="figure__number">{{ userData.following }}</p>
+        <span class="figure__text">Following</span>
       </div>
 
       <div class="figure">
-        <h3 class="figure__number">{{ userData.public_repos }}</h3>
-        <span>Public Repos</span>
+        <p class="figure__number">{{ userData.public_repos }}</p>
+        <span class="figure__text">Public Repos</span>
       </div>
     </section>
 
@@ -102,7 +102,12 @@
     flex: 1;
 
     &__number {
-      margin: 5px;
+      margin: 0px;
+      font-size: 1.6em;
+    }
+
+    &__text {
+      font-size: 0.85em;
     }
   }
 
