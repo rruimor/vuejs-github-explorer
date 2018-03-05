@@ -1,7 +1,5 @@
 <template>
   <div class="profile__wrapper">
-    <a href="#" @click="clearSelectedUser">Back</a>
-
     <h1>{{ userData.login }}</h1>
     
     <section class="avatar__wrapper">
@@ -55,9 +53,6 @@
       this.getUser(this.selectedUser);
     },
     methods: {
-      clearSelectedUser: function() {
-        this.$emit('clearSelected');
-      },
       getUser: function(username) {
         console.log(username);
 
@@ -81,7 +76,7 @@
 <style lang="scss" scoped>
 
   section {
-    margin: 1em 0;
+    margin: 2em 0;
     width: 100%;
   }
   
@@ -95,7 +90,7 @@
 
   .profile__figures {
     display: inline-flex;
-    justify-content: space-evenly;
+    // justify-content: space-evenly;
   }
 
   .figure {

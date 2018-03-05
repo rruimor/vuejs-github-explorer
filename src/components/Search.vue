@@ -48,6 +48,10 @@
       selectedUser: {
         type: String,
         required: true
+      },
+      inputQuery: {
+        type: String,
+        required: true
       }
     },
     components: {
@@ -56,6 +60,7 @@
     watch: {      
       inputText: {
         handler: function() {
+          this.updateInputQuery(this.inputText);
           this.getUsers()
         },
         deep: true
@@ -64,6 +69,9 @@
     methods: {
       setSelectedUser: function(username) {
         this.$emit('update:selectedUser', username)
+      },
+      updateInputQuery: function(query) {
+        this.$emit('update:inputQuery', query)
       },
       getUsers: _.debounce(
         function () {
