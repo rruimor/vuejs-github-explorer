@@ -36,6 +36,7 @@
 
 <script>
   // import githubApi from '../api/github'
+  import fetch from 'node-fetch';
 
   export default {
     props: {
