@@ -1,110 +1,40 @@
 <template>
-  <div class="search__bar">
-    <!-- <label for="username">Username: </label> -->
-    <div class="input">
-      <input 
-        type="text"
-        name="username" 
-        placeholder="Enter some text..."
-        v-model="inputText"
-      >
-    </div>
-
-    <div class="search__results">
-      <div v-if="resultMsg" class="results__message">
-        {{ resultMsg }}
-      </div>
-
-      <ul v-if="results && results.length">
-        <div class="users__wrapper">
-          <ResultItem 
-            v-for="result of results"
-            :key="result.id"
-            :result="result"
-            v-on:selected="setSelectedUser"
-          />
-        </div>
-      </ul>
-    </div>
+  <div class="search">
+    <SearchInput/>
+    <SearchResults
+      :results="results"
+    />
   </div>
 
 </template>
 
 <script>
-  // import axios from 'axios'
+  import axios from 'axios'
   import _ from 'lodash'
-  import ResultItem from './ResultItem.vue'
+  import SearchInput from './SearchInput.vue'
+  import SearchResults from './SearchResults.vue'
+  import { mapState } from 'vuex'
 
   export default {
     name: 'Search',
     data() {
       return {
-        inputText: '',
         results: [],
         errors: [],
       }
     },
-    props: {
-      selectedUser: {
-        type: String,
-        required: true
-      },
-      inputQuery: {
-        type: String,
-        required: true
-      }
-    },
     components: {
-      ResultItem
+      SearchInput,
+      SearchResults
     },
     watch: {      
-      inputText: {
-        handler: function() {
-          this.updateInputQuery(this.inputText);
-          this.getUsers()
-        },
-        deep: true
+      searchQuery() {
+        this.getUsers();
       }
-    },
-    methods: {
-      setSelectedUser: function(username) {
-        this.$emit('update:selectedUser', username)
-      },
-      updateInputQuery: function(query) {
-        this.$emit('update:inputQuery', query)
-      },
-      getUsers: _.debounce(
-        function () {
-          if (this.inputText === '') {
-            this.results = []
-            return
-          }
-
-          console.log("Getting users with param: ", this.inputText);
-
-          let mockedResponse = [{"login":"mojombo","id":1,"avatar_url":"https://avatars0.githubusercontent.com/u/1?v=4","gravatar_id":"","url":"https://api.github.com/users/mojombo","html_url":"https://github.com/mojombo","followers_url":"https://api.github.com/users/mojombo/followers","following_url":"https://api.github.com/users/mojombo/following{/other_user}","gists_url":"https://api.github.com/users/mojombo/gists{/gist_id}","starred_url":"https://api.github.com/users/mojombo/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/mojombo/subscriptions","organizations_url":"https://api.github.com/users/mojombo/orgs","repos_url":"https://api.github.com/users/mojombo/repos","events_url":"https://api.github.com/users/mojombo/events{/privacy}","received_events_url":"https://api.github.com/users/mojombo/received_events","type":"User","site_admin":false},{"login":"defunkt","id":2,"avatar_url":"https://avatars0.githubusercontent.com/u/2?v=4","gravatar_id":"","url":"https://api.github.com/users/defunkt","html_url":"https://github.com/defunkt","followers_url":"https://api.github.com/users/defunkt/followers","following_url":"https://api.github.com/users/defunkt/following{/other_user}","gists_url":"https://api.github.com/users/defunkt/gists{/gist_id}","starred_url":"https://api.github.com/users/defunkt/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/defunkt/subscriptions","organizations_url":"https://api.github.com/users/defunkt/orgs","repos_url":"https://api.github.com/users/defunkt/repos","events_url":"https://api.github.com/users/defunkt/events{/privacy}","received_events_url":"https://api.github.com/users/defunkt/received_events","type":"User","site_admin":true},{"login":"pjhyett","id":3,"avatar_url":"https://avatars0.githubusercontent.com/u/3?v=4","gravatar_id":"","url":"https://api.github.com/users/pjhyett","html_url":"https://github.com/pjhyett","followers_url":"https://api.github.com/users/pjhyett/followers","following_url":"https://api.github.com/users/pjhyett/following{/other_user}","gists_url":"https://api.github.com/users/pjhyett/gists{/gist_id}","starred_url":"https://api.github.com/users/pjhyett/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/pjhyett/subscriptions","organizations_url":"https://api.github.com/users/pjhyett/orgs","repos_url":"https://api.github.com/users/pjhyett/repos","events_url":"https://api.github.com/users/pjhyett/events{/privacy}","received_events_url":"https://api.github.com/users/pjhyett/received_events","type":"User","site_admin":false}]
-
-          this.results = mockedResponse;
-
-          // axios.get('https://api.github.com/search/users', { 
-          //   params: {
-          //     q: this.inputText
-          //   }
-          // })
-          // .then(response => {
-          //   this.results = response.data.items
-          // })
-          // .catch(e => {
-          //   // this.errors.push(e)
-          //   console.log(e);
-          // })
-        },
-        300
-      )
     },
     computed: {
       resultMsg: function () {
-        if (this.inputText === '') {
+        if (this.searchQuery === '') {
           return '';
         }
         else if (this.results && this.results.length) {
@@ -113,50 +43,49 @@
         else {
           return 'No results found';
         }
-      }
+      },
+      ...mapState([
+        'searchQuery'
+      ])
+    },
+    methods: {
+      updateInputQuery: function(query) {
+        this.$emit('update:inputQuery', query)
+      },
+      getUsers: _.debounce(
+        function () {
+          if (this.searchQuery === '') {
+            this.results = []
+            return
+          }
+
+          console.log("Getting users with param: ", this.searchQuery);
+
+          // let mockedResponse = [{"login":"mojombo","id":1,"avatar_url":"https://avatars0.githubusercontent.com/u/1?v=4","gravatar_id":"","url":"https://api.github.com/users/mojombo","html_url":"https://github.com/mojombo","followers_url":"https://api.github.com/users/mojombo/followers","following_url":"https://api.github.com/users/mojombo/following{/other_user}","gists_url":"https://api.github.com/users/mojombo/gists{/gist_id}","starred_url":"https://api.github.com/users/mojombo/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/mojombo/subscriptions","organizations_url":"https://api.github.com/users/mojombo/orgs","repos_url":"https://api.github.com/users/mojombo/repos","events_url":"https://api.github.com/users/mojombo/events{/privacy}","received_events_url":"https://api.github.com/users/mojombo/received_events","type":"User","site_admin":false},{"login":"defunkt","id":2,"avatar_url":"https://avatars0.githubusercontent.com/u/2?v=4","gravatar_id":"","url":"https://api.github.com/users/defunkt","html_url":"https://github.com/defunkt","followers_url":"https://api.github.com/users/defunkt/followers","following_url":"https://api.github.com/users/defunkt/following{/other_user}","gists_url":"https://api.github.com/users/defunkt/gists{/gist_id}","starred_url":"https://api.github.com/users/defunkt/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/defunkt/subscriptions","organizations_url":"https://api.github.com/users/defunkt/orgs","repos_url":"https://api.github.com/users/defunkt/repos","events_url":"https://api.github.com/users/defunkt/events{/privacy}","received_events_url":"https://api.github.com/users/defunkt/received_events","type":"User","site_admin":true},{"login":"pjhyett","id":3,"avatar_url":"https://avatars0.githubusercontent.com/u/3?v=4","gravatar_id":"","url":"https://api.github.com/users/pjhyett","html_url":"https://github.com/pjhyett","followers_url":"https://api.github.com/users/pjhyett/followers","following_url":"https://api.github.com/users/pjhyett/following{/other_user}","gists_url":"https://api.github.com/users/pjhyett/gists{/gist_id}","starred_url":"https://api.github.com/users/pjhyett/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/pjhyett/subscriptions","organizations_url":"https://api.github.com/users/pjhyett/orgs","repos_url":"https://api.github.com/users/pjhyett/repos","events_url":"https://api.github.com/users/pjhyett/events{/privacy}","received_events_url":"https://api.github.com/users/pjhyett/received_events","type":"User","site_admin":false}]
+
+          // this.results = mockedResponse;
+
+
+          // TODO use browser fetch API instead of Axios lib
+
+          axios.get('https://api.github.com/search/users', { 
+            params: {
+              q: this.searchQuery
+            }
+          })
+          .then(response => {
+            this.results = response.data.items
+          })
+          .catch(e => {
+            // this.errors.push(e)
+            console.log(e);
+          })
+        },
+        300
+      )
     }
   }
 </script>
 
-<style lang="scss" scoped>
-  
-  ul {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-  }
-
-  .input {
-
-    width: 100%;
-
-    > input {
-      padding: 10px;
-      font-size: 1.2em;
-      border: 1px solid #CCC;
-
-      box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-      transition: all 0.3s cubic-bezier(.25,.8,.25,1);
-
-      &:hover {
-        box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
-        opacity: 1;
-      }
-    }
-  }
-
-  .search__results {
-    margin-top: 40px;
-  }
-
-  .users__wrapper {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-  }
-
-  .results__message {
-    margin: 20px;
-  }
-  
+<style lang="scss" scoped>  
 </style>

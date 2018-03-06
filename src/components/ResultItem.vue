@@ -22,7 +22,7 @@
     },
     methods: {
       setSelected: function() {
-        this.$emit('selected', this.result.login)
+        this.$store.commit('setSelectedUser', this.result.login)
       }
     }
   }
