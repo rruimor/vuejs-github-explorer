@@ -35,8 +35,7 @@
 </template>
 
 <script>
-  import axios from 'axios'
-  import githubApi from '../api/github'
+  // import githubApi from '../api/github'
 
   export default {
     props: {
@@ -58,18 +57,16 @@
         console.log("selected user: ", username);
 
         // let mockedResponse = githubApi.getUser();
-
         // this.userData = mockedResponse;
-        
-        axios.get('https://api.github.com/users/' + username)
-        .then(response => {
-          this.userData = response.data
-        })
-        .catch(e => {
-          // this.errors.push(e)
-          console.log(e);
-        })
 
+        var vm = this
+
+        fetch("https://api.github.com/users/" + username)
+          .then((resp) => resp.json())
+          .then(function(parsedResponse) {
+            vm.userData = parsedResponse
+          })
+          .catch(e => { console.log(e) });
       }
     }
   }
