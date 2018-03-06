@@ -1,7 +1,7 @@
 import { shallow, createLocalVue } from '@vue/test-utils'
-import App from '../../src/App'
+import App from '@/App'
 import Vuex from 'vuex'
-import { store } from '../../src/store'
+import { store } from '@/store'
 
 const localVue = createLocalVue()
 
