@@ -6,11 +6,13 @@
     "serve": "vue-cli-service serve --open",
     "build": "vue-cli-service build",
     "test": "vue-cli-service test",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "deploy": "npm run build; push-dir --dir=dist --branch=gh-pages --cleanup"
   },
   "dependencies": {
     "axios": "^0.18.0",
     "lodash": "^4.17.5",
+    "push-dir": "^0.4.1",
     "vue": "^2.5.13",
     "vuex": "^3.0.1"
   },
