@@ -62,23 +62,23 @@
 
           console.log("Getting users with param: ", this.searchQuery);
 
-          let mockedResponse = githubApi.getUsers();
-          this.results = mockedResponse;
+          // let mockedResponse = githubApi.getUsers();
+          // this.results = mockedResponse;
 
 
           // TODO use browser fetch API instead of Axios lib
-          // axios.get('https://api.github.com/search/users', { 
-          //   params: {
-          //     q: this.searchQuery
-          //   }
-          // })
-          // .then(response => {
-          //   this.results = response.data.items
-          // })
-          // .catch(e => {
-          //   // this.errors.push(e)
-          //   console.log(e);
-          // })
+          axios.get('https://api.github.com/search/users', { 
+            params: {
+              q: this.searchQuery
+            }
+          })
+          .then(response => {
+            this.results = response.data.items
+          })
+          .catch(e => {
+            // this.errors.push(e)
+            console.log(e);
+          })
         },
         300
       )

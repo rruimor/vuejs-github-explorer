@@ -57,18 +57,18 @@
       getUser: function(username) {
         console.log("selected user: ", username);
 
-        let mockedResponse = githubApi.getUser();
+        // let mockedResponse = githubApi.getUser();
 
-        this.userData = mockedResponse;
+        // this.userData = mockedResponse;
         
-        // axios.get('https://api.github.com/users/' + username)
-        // .then(response => {
-        //   this.userData = response.data
-        // })
-        // .catch(e => {
-        //   // this.errors.push(e)
-        //   console.log(e);
-        // })
+        axios.get('https://api.github.com/users/' + username)
+        .then(response => {
+          this.userData = response.data
+        })
+        .catch(e => {
+          // this.errors.push(e)
+          console.log(e);
+        })
 
       }
     }
