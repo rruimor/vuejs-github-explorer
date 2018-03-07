@@ -7,7 +7,19 @@
           <h1>{{ userData.login }}</h1>
 
           <section class="avatar__wrapper">
-            <img class="avatar--thumbnail" :src="userData.avatar_url">
+            <clazy-load 
+              :src="userData.avatar_url"  
+            >
+              <img
+                class="avatar--thumbnail"
+                :src="userData.avatar_url"
+                slot="image"
+              >
+              <Spinner
+                class="preloader"
+                slot="placeholder"
+              />
+            </clazy-load>
           </section>
           
           <section class="profile__name">
