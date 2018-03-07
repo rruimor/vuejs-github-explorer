@@ -9,7 +9,7 @@
 </template>
 
 <script>
-  // import githubApi from '../api/github'
+  import githubApi from '../api/github'
   
   import _ from 'lodash'
   import SearchInput from './SearchInput.vue'
@@ -51,20 +51,20 @@
 
           console.log("Getting users with param: ", this.searchQuery);
 
-          // let mockedResponse = githubApi.getUsers();
-          // this.results = mockedResponse;
+          let mockedResponse = githubApi.getUsers();
+          this.results = mockedResponse;
 
-          var vm = this
+          // var vm = this
 
-          var githubUsersApiurl = new URL("https://api.github.com/search/users")
-          githubUsersApiurl.searchParams.append('q', this.searchQuery)
+          // var githubUsersApiurl = new URL("https://api.github.com/search/users")
+          // githubUsersApiurl.searchParams.append('q', this.searchQuery)
 
-          fetch(githubUsersApiurl)
-            .then((resp) => resp.json())
-            .then(function(parsedResponse) {
-              vm.results = parsedResponse.items
-            })
-            .catch(e => { console.log(e) });
+          // fetch(githubUsersApiurl)
+          //   .then((resp) => resp.json())
+          //   .then(function(parsedResponse) {
+          //     vm.results = parsedResponse.items
+          //   })
+          //   .catch(e => { console.log(e) });
         },
         300
       )

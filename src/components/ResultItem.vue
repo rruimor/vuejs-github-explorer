@@ -1,15 +1,17 @@
 <template>
-  <li 
-    class="result__item"
-    @click="setSelected"
-  >
-    <div class="avatar__wrapper">
-      <img class="avatar--thumbnail" :src="result.avatar_url">
-    </div>
-    <div class="name__wrapper">
-      <span class="result__name">{{ result.login }}</span>
-    </div>
-  </li>
+  <transition name="fade" appear>
+    <li 
+      class="result__item"
+      @click="setSelected"
+    >
+      <div class="avatar__wrapper">
+        <img class="avatar--thumbnail" :src="result.avatar_url">
+      </div>
+      <div class="name__wrapper">
+        <span class="result__name">{{ result.login }}</span>
+      </div>
+    </li>
+  </transition>
 </template>
 
 <script>
