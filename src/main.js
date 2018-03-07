@@ -1,3 +1,4 @@
+import IntersectionObserver from 'intersection-observer'
 import Vue from 'vue'
 import App from './App.vue'
 import { store } from './store'
