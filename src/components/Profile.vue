@@ -1,42 +1,50 @@
 <template>
   <div class="profile__wrapper">
-    <h1>{{ userData.login }}</h1>
-    
-    <section class="avatar__wrapper">
-      <img class="avatar--thumbnail" :src="userData.avatar_url">
-    </section>
-    
-    <section class="profile__name">
-      <h2 class="user__name">{{ userData.name }}</h2>
-      <span class="user__location">{{ userData.location }}</span>
-    </section>
+    <template v-if="isUserDataEmpty">
+      <Spinner/>
+    </template>
 
-    <section class="profile__figures">
-      <div class="figure">
-        <p class="figure__number">{{ userData.followers }}</p>
-        <span class="figure__text">Followers</span>
-      </div>
+    <template v-else>
+        <h1>{{ userData.login }}</h1>
+        
+        <section class="avatar__wrapper">
+          <img class="avatar--thumbnail" :src="userData.avatar_url">
+        </section>
+        
+        <section class="profile__name">
+          <h2 class="user__name">{{ userData.name }}</h2>
+          <span class="user__location">{{ userData.location }}</span>
+        </section>
 
-      <div class="figure">
-        <p class="figure__number">{{ userData.following }}</p>
-        <span class="figure__text">Following</span>
-      </div>
+        <section class="profile__figures">
+          <div class="figure">
+            <p class="figure__number">{{ userData.followers }}</p>
+            <span class="figure__text">Followers</span>
+          </div>
 
-      <div class="figure">
-        <p class="figure__number">{{ userData.public_repos }}</p>
-        <span class="figure__text">Public Repos</span>
-      </div>
-    </section>
+          <div class="figure">
+            <p class="figure__number">{{ userData.following }}</p>
+            <span class="figure__text">Following</span>
+          </div>
 
-    <section>
-      <p v-if=" userData.blog"><a :href="userData.blog" target="_blank">{{ userData.blog }}</a></p>
-    </section>
+          <div class="figure">
+            <p class="figure__number">{{ userData.public_repos }}</p>
+            <span class="figure__text">Public Repos</span>
+          </div>
+        </section>
+
+        <section>
+          <p v-if=" userData.blog"><a :href="userData.blog" target="_blank">{{ userData.blog }}</a></p>
+        </section>
+    </template>
   </div>
 </template>
 
 <script>
   // import githubApi from '../api/github'
-  import fetch from 'node-fetch';
+  import _ from 'lodash'
+  import fetch from 'node-fetch'
+  import Spinner from 'vue-simple-spinner'
 
   export default {
     props: {
@@ -50,8 +58,16 @@
         userData: {}
       }
     },
-    mounted: function() {
+    created: function() {
       this.getUser(this.selectedUser);
+    },
+    components: {
+      Spinner
+    },
+    computed: {
+      isUserDataEmpty: function() {
+        return _.isEmpty(this.userData)
+      }
     },
     methods: {
       getUser: function(username) {

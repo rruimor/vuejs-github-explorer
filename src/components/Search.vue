@@ -34,17 +34,6 @@
       }
     },
     computed: {
-      resultMsg: function () {
-        if (this.searchQuery === '') {
-          return '';
-        }
-        else if (this.results && this.results.length) {
-          return '';
-        }
-        else {
-          return 'No results found';
-        }
-      },
       ...mapState([
         'searchQuery'
       ])
