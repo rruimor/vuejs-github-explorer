@@ -16,26 +16,24 @@
           </section>
 
           <section class="profile__figures">
-            <div class="figure">
-              <p class="figure__number">{{ userData.followers }}</p>
-              <span class="figure__text">Followers</span>
-            </div>
+            <Figure
+              :figureNumber="userData.followers"
+              figureText="Followers"
+            />
 
-            <div class="figure">
-              <p class="figure__number">{{ userData.following }}</p>
-              <span class="figure__text">Following</span>
-            </div>
+            <Figure
+              :figureNumber="userData.following"
+              figureText="Following"
+            />
 
-            <div class="figure">
-              <p class="figure__number">{{ userData.public_repos }}</p>
-              <span class="figure__text">Public Repos</span>
-            </div>
+            <Figure
+              :figureNumber="userData.public_repos"
+              figureText="Public Repos"
+            />
           </section>
 
           <section>
-            <transition name="fade">
-              <p v-if=" userData.blog"><a :href="userData.blog" target="_blank">{{ userData.blog }}</a></p>
-            </transition>
+            <p v-if=" userData.blog"><a :href="userData.blog" target="_blank">{{ userData.blog }}</a></p>
           </section>
         </div>
       </transition>
@@ -50,6 +48,7 @@
   import _ from 'lodash'
   import fetch from 'node-fetch'
   import Spinner from 'vue-simple-spinner'
+  import Figure from '@/components/Figure'
 
   export default {
     props: {
@@ -67,7 +66,7 @@
       this.getUser(this.selectedUser);
     },
     components: {
-      Spinner
+      Spinner, Figure
     },
     computed: {
       hasUserData: function() {
@@ -111,19 +110,5 @@
 
   .profile__figures {
     display: inline-flex;
-    // justify-content: space-evenly;
-  }
-
-  .figure {
-    flex: 1;
-
-    &__number {
-      margin: 0px;
-      font-size: 1.6em;
-    }
-
-    &__text {
-      font-size: 0.85em;
-    }
   }
 </style>
