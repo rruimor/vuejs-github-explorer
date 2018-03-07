@@ -56,7 +56,7 @@
 </template>
 
 <script>
-  import githubApi from '../api/github'
+  // import githubApi from '../api/github'
   import _ from 'lodash'
   import fetch from 'node-fetch'
   import Spinner from 'vue-simple-spinner'
@@ -89,17 +89,17 @@
       getUser: function(username) {
         console.log("selected user: ", username);
 
-        let mockedResponse = githubApi.getUser();
-        this.userData = mockedResponse;
+        // let mockedResponse = githubApi.getUser();
+        // this.userData = mockedResponse;
 
-        // var vm = this
+        var vm = this
 
-        // fetch("https://api.github.com/users/" + username)
-        //   .then((resp) => resp.json())
-        //   .then(function(parsedResponse) {
-        //     vm.userData = parsedResponse
-        //   })
-        //   .catch(e => { console.log(e) });
+        fetch("https://api.github.com/users/" + username)
+          .then((resp) => resp.json())
+          .then(function(parsedResponse) {
+            vm.userData = parsedResponse
+          })
+          .catch(e => { console.log(e) });
       }
     }
   }
